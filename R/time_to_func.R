@@ -70,7 +70,8 @@ time_to_command_foll <- function(data, database){
     filter(command_score >= 4 ) %>%
     slice_min(date, with_ties = FALSE) %>%
     ungroup() %>%
-    rename(min_date = date)
+    rename(min_date = date) %>%
+    select(-command_score)
 
   command_wlst_df <- gose_df %>%
     select(record_id, wlst, discharge_gose)

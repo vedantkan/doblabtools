@@ -73,7 +73,7 @@ command_score_func <- function(data, database = "consciousness", type = "all"){
   if(date == time){
     df <- data %>%
       select(record_id, !!sym(date), command_score) %>%
-      filter(!(is.na(!!sym(date)) & is.na(command_score) )) %>%
+      filter(!(is.na(command_score) )) %>%
       mutate(date = as.Date(stringr::str_sub(!!sym(date), 1, 10)),
              time = stringr::str_sub(!!sym(date), 12, ),
              .after = !!sym(date)) %>%
@@ -86,7 +86,7 @@ command_score_func <- function(data, database = "consciousness", type = "all"){
   else{
     df <- data %>%
       select(record_id, !!sym(date), !!sym(time), command_score) %>%
-      filter(!(is.na(!!sym(date)) & is.na(!!sym(time)) & is.na(command_score))) %>%
+      filter(!(is.na(command_score))) %>%
       group_by(record_id) %>%
       rename(date = !!sym(date),
              time = !!sym(time)) %>%

@@ -210,6 +210,28 @@ demo_func <- function(data, database = "consciousness"){
       rename("icu_adm_date" = "icu_admission_date")
   }
 
+  if("primary_adm_dx" %in% colnames(df)){
+    df <- df %>%
+      mutate(primary_adm_dx = case_when(primary_adm_dx == 1 ~ "sah",
+                                        primary_adm_dx == 2 ~ "ich",
+                                        primary_adm_dx == 3 ~ "ca",
+                                        primary_adm_dx == 4 ~ "ais",
+                                        primary_adm_dx == 5 ~ "tbi",
+                                        primary_adm_dx == 6 ~ "sdh",
+                                        primary_adm_dx == 7 ~ "Encephalitis",
+                                        primary_adm_dx == 9 ~ "Brain Tumor",
+                                        primary_adm_dx == 10 ~ "Other",
+                                        primary_adm_dx == 11 ~ "Status Epilepticus",
+                                        primary_adm_dx == 12 ~ "Sepsis",
+                                        primary_adm_dx == 13 ~ "Polyneuropathy",
+                                        primary_adm_dx == 14 ~ "Encephalopathy",
+                                        .default = NA))
+  }
+  else if(!"primary_adm_dx" %in% colnames(df)){
+    df <- df %>%
+      mutate(primary_adm_dx = "ich")
+  }
+
   if(length(unique(df$record_id)) == nrow(df) ){
     return(df)
   }

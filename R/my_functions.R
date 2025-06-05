@@ -225,11 +225,17 @@ demo_func <- function(data, database = "consciousness"){
                                         primary_adm_dx == 12 ~ "Sepsis",
                                         primary_adm_dx == 13 ~ "Polyneuropathy",
                                         primary_adm_dx == 14 ~ "Encephalopathy",
-                                        .default = NA))
+                                        .default = NA)) %>%
+      mutate(new_dx = case_when(primary_adm_dx %in% c("sah", "ich", "ais", "Brain Tumor") ~ "struc_wo_tbi",
+                                primary_adm_dx %in% c("tbi", "sdh") ~ "struct_w_tbi",
+                                primary_adm_dx %in% c("ca","Encephalitis", "Other", "Status Epilepticus",
+                                                      "Sepsis", "Polyneuropathy", "Encephalopathy") ~ "non_structure",
+                                .default = NA))
   }
   else if(!"primary_adm_dx" %in% colnames(df)){
     df <- df %>%
-      mutate(primary_adm_dx = "ich")
+      mutate(primary_adm_dx = "ich",
+             new_dx = "struc_wo_tbi")
   }
 
   if(length(unique(df$record_id)) == nrow(df) ){

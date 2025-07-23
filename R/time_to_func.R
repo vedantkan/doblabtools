@@ -41,8 +41,8 @@ time_to_crsr <- function(data, database){
                                     crsr_status == 2 & wlst == 1 ~ as.numeric(icu_dch_date - primary_adm_dx_onset),
                                     crsr_status == 2 & wlst == 0 ~ 31)) %>%
     select(-date, -crsr_total) %>%
-    distinct() %>%
-    select(record_id, crsr_recov, crsr_status, crsr_time_to)
+    select(record_id, crsr_recov, crsr_status, crsr_time_to) %>%
+    distinct()
 
   return(time_crsr_df)
 }
@@ -94,8 +94,8 @@ time_to_command_foll <- function(data, database){
                                        command_status == 2 & wlst == 1 ~ as.numeric(icu_dch_date - primary_adm_dx_onset),
                                        command_status == 2 & wlst == 0 ~ 31)) %>%
     select(-date, -command_score) %>%
-    distinct() %>%
-    select(record_id, command_recov, command_status, command_time_to)
+    select(record_id, command_recov, command_status, command_time_to) %>%
+    distinct()
 
   return(time_command_df)
 }
@@ -148,8 +148,8 @@ time_to_mcsp <- function(data, database){
                                     mcsp_status == 2 & wlst == 1 ~ as.numeric(icu_dch_date - primary_adm_dx_onset),
                                     mcsp_status == 2 & wlst == 0 ~ 31)) %>%
     select(-date, -cs_group) %>%
-    distinct() %>%
-    select(record_id, mcsp_recov, mcsp_status, mcsp_time_to)
+    select(record_id, mcsp_recov, mcsp_status, mcsp_time_to) %>%
+    distinct()
 
   return(time_mcsp_df)
 
@@ -204,8 +204,8 @@ time_to_mcspm <- function(data, database){
                                      mcspm_status == 2 & wlst == 1 ~ as.numeric(icu_dch_date - primary_adm_dx_onset),
                                      mcspm_status == 2 & wlst == 0 ~ 31)) %>%
     select(-date, -cs_group) %>%
-    distinct() %>%
-    select(record_id, mcspm_recov, mcspm_status, mcspm_time_to)
+    select(record_id, mcspm_recov, mcspm_status, mcspm_time_to) %>%
+    distinct()
 
   return(time_mcspm_df)
 

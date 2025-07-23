@@ -134,7 +134,8 @@ crsr_func <- function(data, database = "consciousness", type = "all"){
   if(date == time){
     df <- data %>%
       select(record_id, !!sym(date), crsr_auditory, crsr_visual, crsr_motor,
-             crsr_oromotor_verbal, crsr_communication, crsr_arousal, crsr_total) %>%
+             crsr_oromotor_verbal, crsr_communication, crsr_arousal, crsr_total,
+             brainstem_response_sedation, eeg_sedation) %>%
       filter(!is.na(crsr_total)) %>%
       mutate(date = as.Date(stringr::str_sub(!!sym(date), 1, 10)),
              time = stringr::str_sub(!!sym(time), 12, ),
@@ -144,7 +145,8 @@ crsr_func <- function(data, database = "consciousness", type = "all"){
   else{
     df <- data %>%
       select(record_id, !!sym(date), !!sym(time), crsr_auditory, crsr_visual, crsr_motor,
-             crsr_oromotor_verbal, crsr_communication, crsr_arousal, crsr_total) %>%
+             crsr_oromotor_verbal, crsr_communication, crsr_arousal, crsr_total,
+             brainstem_response_sedation, eeg_sedation) %>%
       filter(!is.na(crsr_total)) %>%
       rename(date = !!sym(date),
              time = !!sym(time))
@@ -157,7 +159,9 @@ crsr_func <- function(data, database = "consciousness", type = "all"){
       (crsr_visual %in% 1:4 | (crsr_motor > 2 & crsr_motor < 6)) & (crsr_auditory < 3 & crsr_oromotor_verbal < 3 & crsr_communication < 1) ~ "MCSm",
       (crsr_auditory >= 3 | crsr_oromotor_verbal == 3 | crsr_communication == 1) & (crsr_communication < 2 & crsr_motor < 6) ~ "MCSp",
       crsr_communication == 2 | crsr_motor == 6 ~ "CS")) %>%
-    select(record_id, date, time, crsr_total, cs_group) %>%
+    rename(brain_sed = brainstem_response_sedation,
+           eeg_sed = eeg_sedation)
+    select(record_id, date, time, crsr_total, cs_group, brain_sed, eeg_sed) %>%
     group_by(record_id) %>%
     arrange(date, .by_group = TRUE) %>%
     mutate(crsr_yn = ifelse(any(crsr_total >= 8), 1, 0),

@@ -160,7 +160,7 @@ crsr_func <- function(data, database = "consciousness", type = "all"){
       (crsr_auditory >= 3 | crsr_oromotor_verbal == 3 | crsr_communication == 1) & (crsr_communication < 2 & crsr_motor < 6) ~ "MCSp",
       crsr_communication == 2 | crsr_motor == 6 ~ "CS")) %>%
     rename(brain_sed = brainstem_response_sedation,
-           eeg_sed = eeg_sedation)
+           eeg_sed = eeg_sedation) %>%
     select(record_id, date, time, crsr_total, cs_group, brain_sed, eeg_sed) %>%
     group_by(record_id) %>%
     arrange(date, .by_group = TRUE) %>%
